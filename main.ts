@@ -2,11 +2,6 @@ import { Plugin, WorkspaceLeaf, TFile, TFolder, requestUrl, Notice, normalizePat
 import { MeshView, MESH_VIEW_TYPE } from './views/MeshView';
 import { SettingsView } from './views/SettingsView';
 import { PluginSettings, DEFAULT_SETTINGS, ProviderName, Workflow, GitHubApiItem , SearchProviderName } from './types';
-import { OpenAIProvider } from './providers/OpenAIProvider';
-import { GoogleProvider } from './providers/GoogleProvider';
-import { MicrosoftProvider } from './providers/MicrosoftProvider';
-import { AnthropicProvider } from './providers/AnthropicProvider';
-import { GrocqProvider } from './providers/GrocqProvider';
 import { OllamaProvider } from './providers/OllamaProvider';
 import { YoutubeProvider } from './providers/YoutubeProvider';
 import { TavilyProvider } from './providers/TavilyProvider';
@@ -18,16 +13,13 @@ import { TavilySearchModalWF } from 'modals/TavilySearchModalWF';
 import { processWorkflow } from './utils/WorkflowUtils';
 import { createOutputFile } from './utils/FileUtils';
 import { processPatterns, processStitchedPatterns, getInputContent } from './utils/MeshUtils';
-import { PerplexityProvider } from 'providers/PerplexityProvider';
-import { OpenRouterProvider } from './providers/OpenRouterProvider';
-import { LMStudioProvider } from './providers/LMStudioProvider';
 import { AnalyzePathwaysModal } from 'modals/AnalyzePathwaysModal';
 
 export default class MeshAIPlugin extends Plugin {
   settings: PluginSettings;
   youtubeProvider: YoutubeProvider;
   tavilyProvider: TavilyProvider;
-  perplexityProvider: PerplexityProvider;
+
   async onload() {
     await this.loadSettings();
     this.fixFolderPaths();
@@ -320,22 +312,8 @@ export default class MeshAIPlugin extends Plugin {
 
   getProvider(providerName: ProviderName) {
     switch (providerName) {
-      case 'openai':
-        return new OpenAIProvider(this.settings.openaiApiKey, this);
-      case 'google':
-        return new GoogleProvider(this.settings.googleApiKey, this);
-      case 'microsoft':
-        return new MicrosoftProvider(this.settings.microsoftApiKey, this);
-      case 'anthropic':
-        return new AnthropicProvider(this.settings.anthropicApiKey, this);
-      case 'grocq':
-        return new GrocqProvider(this.settings.grocqApiKey, this);
       case 'ollama':
         return new OllamaProvider(this.settings.ollamaServerUrl, this);
-      case 'openrouter':
-        return new OpenRouterProvider(this.settings.openrouterApiKey, this);
-      case 'lmstudio':
-        return new LMStudioProvider(this.settings.lmstudioServerUrl, this);
       default:
         throw new Error(`Unknown provider: ${providerName}`);
     }
@@ -345,8 +323,8 @@ export default class MeshAIPlugin extends Plugin {
     switch (providerName) {
       case 'tavily':
         return new TavilyProvider(this.settings.tavilyApiKey, this);
-      case 'perplexity':
-        return new PerplexityProvider(this.settings.perplexityApiKey, this);
+      // case 'perplexity':
+      //   return new PerplexityProvider(this.settings.perplexityApiKey, this);
       default:
         throw new Error(`Unsupported search provider: ${providerName}`);
     }

@@ -150,7 +150,8 @@ export class AnalyzePathwaysModal extends Modal {
             }
 
             // Search using Tavily or Perplexity
-            const searchProvider = this.plugin.settings.pathwaysSearchProvider === 'tavily' ? this.plugin.tavilyProvider : this.plugin.perplexityProvider;
+            const searchProvider = this.plugin.settings.pathwaysSearchProvider === 'tavily' ? this.plugin.tavilyProvider : this.plugin.tavilyProvider;
+             //=== 'tavily' ? this.plugin.tavilyProvider : this.plugin.perplexityProvider;
             const searchResults = await searchProvider.search(question);
 
             // Process the search results using the workflow patterns
